@@ -1,8 +1,8 @@
 #!/bin/bash
 source include/config.sh
-CONFIG_FILE = "$1"
+CONFIG_FILE="$1"
 
-$options = `get_mirror_options $CONFIG_FILE`
+options=`get_mirror_options $CONFIG_FILE`
 
 lftp -f "
 open $remote_host
