@@ -1,5 +1,5 @@
 #!/bin/bash
-source ftp-cron.conf
+source "$1"
 
 options=''
 if $sync_rem; then
