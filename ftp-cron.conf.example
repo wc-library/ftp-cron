@@ -1,0 +1,17 @@
+###output###
+verbose=true
+
+###sync settings###
+sync_new=true   #autosync new files
+sync_mod=true   #autosync modified files
+sync_rem=true   #autosync file deletions
+recursive=true  #autosync subdirs
+
+###local/remote dir###
+local_dir='./'
+remote_dir=''
+
+###ftp connection info###
+remote_host=''
+remote_user=''
+remote_pass=''
