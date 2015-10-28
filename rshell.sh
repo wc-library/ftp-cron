@@ -1,6 +1,3 @@
 #!/bin/bash
-
-CONFIG_FILE="$1"
-source "$CONFIG_FILE"
-
+source ".config"
 lftp -u $remote_user,$remote_pass $remote_host
