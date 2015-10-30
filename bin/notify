@@ -2,3 +2,7 @@
 cd "$(dirname "${BASH_SOURCE[0]}")"
 source .config
 cd $proj_dir
+
+#gather input
+[ $# -ge 1 -a -f "$1" ] && input="$1" || input=$(cat)
+printf "Subject: UPDATE: there are new files\n\n$input" | sendmail  ${email_user}@${email_host}
