@@ -1,7 +1,7 @@
 #!/bin/bash
-
+cd "$(dirname "${BASH_SOURCE[0]}")"
 source ".config"
-
+cd $proj_dir
 lftp -f "
 open $remote_host
 user $remote_user $remote_pass
