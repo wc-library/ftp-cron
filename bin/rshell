@@ -2,4 +2,4 @@
 cd "$(dirname "${BASH_SOURCE[0]}")"
 source ".config"
 cd $proj_dir
-lftp -u $remote_user,$remote_pass $remote_host
+lftp -u $remote_auth
