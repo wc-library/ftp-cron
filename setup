@@ -7,7 +7,7 @@ mkdir -p data/new data/upload
 mkdir -p data/.backup data/.backup/modified data/.backup/original
 
 sync_args="-c --verbose"
-lftp_script="lcd $DIR/data/.mirror"
+lftp_script=""
 
 if [ "$remote_dir" != "." -a "$remote_dir" != "./" ]; then
     lftp_script="$lftp_script; cd $remote_dir"
