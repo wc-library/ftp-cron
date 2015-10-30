@@ -1,5 +1,7 @@
 #!/bin/bash
+orig_dir=`pwd`
 cd "$(dirname "${BASH_SOURCE[0]}")"
 source ".config"
 cd $proj_dir
 lftp -u $remote_auth
+cd $orig_dir
