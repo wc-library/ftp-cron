@@ -1,7 +1,9 @@
 #!/bin/bash
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
+mkdir -p data data/.mirror
+mkdir -p data/new data/upload
+mkdir -p data/.backup data/.backup/modified data/.backup/original
 rm -f bin/.config
 cp $1 bin/.config
 echo "proj_dir=$DIR" >> bin/.config
