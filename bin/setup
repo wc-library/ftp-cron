@@ -1,7 +1,10 @@
 #!/bin/bash
+
 source $1
 
-DIR="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )"
+script_dir=$(dirname "${BASH_SOURCE[0]}")
+DIR="$(cd "$(dirname "${script_dir}" )" && pwd )"
+
 mkdir -p data data/.mirror
 mkdir -p data/new data/upload
 mkdir -p data/.backup data/.backup/modified data/.backup/original
@@ -9,27 +12,27 @@ mkdir -p data/.backup data/.backup/modified data/.backup/original
 sync_args="-c --verbose"
 lftp_script=""
 
-if [ "$remote_dir" != "." -a "$remote_dir" != "./" ]; then
-    lftp_script="$lftp_script; cd $remote_dir"
+if [[ "$remote_dir" != "." && "$remote_dir" != "./" ]]; then
+    lftp_script="cd $remote_dir;"
 fi
 
-if [ "$allow_delete" == "true" ]; then
+if [[ "$allow_delete" == "true" ]]; then
     sync_args="$sync_args -e"
 fi
 
-if [ "$create_empty_dirs" == "false" ]; then
+if [[ "$create_empty_dirs" == "false" ]]; then
     sync_args="$sync_args --no-empty-dirs"
 fi
 
-if ((parallel_downloads > 1 )); then
+if [[ "$parallel_downloads" -gt "1" ]]; then
     sync_args="$sync_args --parallel=$parallel_downloads"
 fi
 
-if [ "$parallel_search" == "true" ]; then
-    lftp_script="$lftp_script; set mirror:parallel-directories true"
+if [[ "$parallel_search" == "true" ]]; then
+    lftp_script="$lftp_script set mirror:parallel-directories true;"
 fi
 
-if [ "$only_missing" == "true" ]; then
+if [[ "$only_missing" == "true" ]]; then
     sync_args="$sync_args --only-missing"
 fi
 
@@ -40,8 +43,8 @@ echo "remote_auth=\""${remote_user}","${remote_pass}" ${remote_host}\"" >> bin/.
 echo "lftp_script=\"${lftp_script}\"" >> bin/.config
 
 echo "proj_dir=$DIR" >> bin/.config
-echo "email_notify=\"${email_notify}\"" >> bin/.config
-if [ "{$email_notify}" == "true" ]; then
+echo "email_notify=${email_notify}" >> bin/.config
+if [[ "{$email_notify}" == "true" ]]; then
     echo "email_to=\"${email_to}\"" >> bin/.config
     echo "email_from=\"${email_from}\"" >> bin/.config
 fi

@@ -4,10 +4,10 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 source ".config"
 cd $proj_dir/data/.mirror
 
-if [ $lftp_script ]; then
-    bin/rexec "$lftp_script; mirror $sync_args"
+if [ -z "$lftp_script" ]; then
+    bin/exec "mirror $sync_args"
 else
-    bin/rexec "mirror $sync_args"
+    bin/exec "$lftp_script mirror $sync_args"
 fi
 
 cd $orig_dir
