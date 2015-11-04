@@ -9,7 +9,7 @@ mkdir -p ${PROJ_DIR}/data ${PROJ_DIR}/data/.mirror
 mkdir -p ${PROJ_DIR}/data/new ${PROJ_DIR}/data/upload
 mkdir -p ${PROJ_DIR}/data/.backup ${PROJ_DIR}/data/.backup/modified ${PROJ_DIR}/data/.backup/original
 
-sync_args="-c --verbose"
+sync_args=" -c --verbose"
 lftp_script=""
 
 prm_ldir=" ${PROJ_DIR}/data/.mirror"
@@ -41,7 +41,7 @@ if [[ "$only_missing" == "true" ]]; then
 fi
 
 rm -f ${PROJ_DIR}/bin/.config
-echo "sync_args=\"${prm_del}${prm_empty_dirs}${prm_pdownloads}${prm_nomod}${prm_rdir}${prm_ldir}\"" > ${PROJ_DIR}/bin/.config
+echo "sync_args=\"${sync_args} ${prm_del}${prm_empty_dirs}${prm_pdownloads}${prm_nomod}${prm_rdir}${prm_ldir}\"" > ${PROJ_DIR}/bin/.config
 echo "remote_auth=\""${remote_user}","${remote_pass}" ${remote_host}\"" >> ${PROJ_DIR}/bin/.config
 echo "lftp_script=\"${prm_psearch}\"" >> ${PROJ_DIR}/bin/.config
 

@@ -3,8 +3,27 @@ script_dir="$(dirname "${BASH_SOURCE[0]}")"
 source "${script_dir}/.config"
 ##########################################
 
+function proc_ln() {
+    cp --parents ${1} ${proj_dir}/data/new/
+    cp --parents ${1} ${proj_dir}/data/.backup/original
+}
+
+function process_new() {
+    local orig_dir=$(pwd)
+    cd ${proj_dir}/data/.mirror
+    grep -oP "(?<=Transferring file \`).+(?=')" ${1} > ${1}2
+    while read f_ln; do
+        proc_ln "${f_ln}"
+    done <${1}2
+    ${proj_dir}/bin/notify "$(cat ${1}2)"
+    #rm $1 ${1}2
+    cd $orig_dir
+}
+
 if [ -z "$lftp_script" ]; then
-    $proj_dir/bin/exec "mirror $sync_args"
+    $proj_dir/bin/exec "mirror $sync_args" > $proj_dir/data/.tmp.new
+    process_new "$proj_dir/data/.tmp.new"
 else
-    $proj_dir/bin/exec "$lftp_script mirror $sync_args"
+    $proj_dir/bin/exec "$lftp_script mirror $sync_args" > $proj_dir/data/.tmp.new
+    process_new "$proj_dir/data/.tmp.new"
 fi
