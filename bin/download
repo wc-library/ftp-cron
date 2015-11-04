@@ -1,0 +1,10 @@
+#!/bin/bash
+script_dir="$(dirname "${BASH_SOURCE[0]}")"
+source "${script_dir}/.config"
+##########################################
+
+if [ -z "$lftp_script" ]; then
+    $proj_dir/bin/exec "mirror $sync_args"
+else
+    $proj_dir/bin/exec "$lftp_script mirror $sync_args"
+fi

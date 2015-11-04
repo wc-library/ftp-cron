@@ -1,50 +1,53 @@
 #!/bin/bash
 
 source $1
+ORIG_DIR="$(pwd)"
+PROJ_DIR=$(cd $(dirname "$(dirname ${BASH_SOURCE[0]})") && pwd)
+cd $ORIG_DIR
 
-script_dir=$(dirname "${BASH_SOURCE[0]}")
-DIR="$(cd "$(dirname "${script_dir}" )" && pwd )"
-
-mkdir -p data data/.mirror
-mkdir -p data/new data/upload
-mkdir -p data/.backup data/.backup/modified data/.backup/original
+mkdir -p ${PROJ_DIR}/data ${PROJ_DIR}/data/.mirror
+mkdir -p ${PROJ_DIR}/data/new ${PROJ_DIR}/data/upload
+mkdir -p ${PROJ_DIR}/data/.backup ${PROJ_DIR}/data/.backup/modified ${PROJ_DIR}/data/.backup/original
 
 sync_args="-c --verbose"
 lftp_script=""
 
-if [[ "$remote_dir" != "." && "$remote_dir" != "./" ]]; then
-    lftp_script="cd $remote_dir;"
-fi
+prm_ldir=" ${PROJ_DIR}/data/.mirror"
+prm_rdir=" ${remote_dir}"
+prm_del=""
+prm_empty_dirs=""
+prm_pdownloads=""
+prm_psearch=""
+prm_nomod=""
 
 if [[ "$allow_delete" == "true" ]]; then
-    sync_args="$sync_args -e"
+    prm_del=" -e"
 fi
 
 if [[ "$create_empty_dirs" == "false" ]]; then
-    sync_args="$sync_args --no-empty-dirs"
+    prm_empty_dirs=" --no-empty-dirs"
 fi
 
 if [[ "$parallel_downloads" -gt "1" ]]; then
-    sync_args="$sync_args --parallel=$parallel_downloads"
+    prm_pdownloads=" --parallel=$parallel_downloads"
 fi
 
 if [[ "$parallel_search" == "true" ]]; then
-    lftp_script="$lftp_script set mirror:parallel-directories true;"
+    prm_psearch="set mirror:parallel-directories true;"
 fi
 
 if [[ "$only_missing" == "true" ]]; then
-    sync_args="$sync_args --only-missing"
+    prm_nomod=" --only-missing"
 fi
 
+rm -f ${PROJ_DIR}/bin/.config
+echo "sync_args=\"${prm_del}${prm_empty_dirs}${prm_pdownloads}${prm_nomod}${prm_rdir}${prm_ldir}\"" > ${PROJ_DIR}/bin/.config
+echo "remote_auth=\""${remote_user}","${remote_pass}" ${remote_host}\"" >> ${PROJ_DIR}/bin/.config
+echo "lftp_script=\"${prm_psearch}\"" >> ${PROJ_DIR}/bin/.config
 
-rm -f bin/.config
-echo "sync_args=\"${sync_args}\"" > bin/.config
-echo "remote_auth=\""${remote_user}","${remote_pass}" ${remote_host}\"" >> bin/.config
-echo "lftp_script=\"${lftp_script}\"" >> bin/.config
-
-echo "proj_dir=$DIR" >> bin/.config
-echo "email_notify=${email_notify}" >> bin/.config
+echo "proj_dir=${PROJ_DIR}" >> ${PROJ_DIR}/bin/.config
+echo "email_notify=${email_notify}" >> ${PROJ_DIR}/bin/.config
 if [[ "{$email_notify}" == "true" ]]; then
-    echo "email_to=\"${email_to}\"" >> bin/.config
-    echo "email_from=\"${email_from}\"" >> bin/.config
+    echo "email_to=\"${email_to}\"" >> ${PROJ_DIR}/bin/.config
+    echo "email_from=\"${email_from}\"" >> ${PROJ_DIR}/bin/.config
 fi

@@ -1,13 +1,10 @@
 #!/bin/bash
-orig_dir=`pwd`
-cd "$(dirname "${BASH_SOURCE[0]}")"
-source .config
-cd $proj_dir
+script_dir="$(dirname "${BASH_SOURCE[0]}")"
+source "${script_dir}/.config"
+##########################################
 
 if [ "$email_notify" == "true" ]; then
 	#gather input
 	[ $# -ge 1 -a -f "$1" ] && input="$1" || input=$(cat)
 	printf "Subject: UPDATE: there are new files\n\n$input" | sendmail -f $email_from $email_to
 fi
-
-cd $orig_dir

@@ -1,7 +1,6 @@
 #!/bin/bash
-orig_dir=`pwd`
-cd "$(dirname "${BASH_SOURCE[0]}")"
-source ".config"
-cd $proj_dir
+script_dir="$(dirname "${BASH_SOURCE[0]}")"
+source "${script_dir}/.config"
+##########################################
+
 lftp -c "open -u $remote_auth; $1"
-cd $orig_dir
