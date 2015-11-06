@@ -1,10 +1,10 @@
 #!/bin/bash
 
 ORIG_DIR="$(pwd)"
-PROJ_DIR=$(cd $(dirname "$(dirname ${BASH_SOURCE[0]})") && pwd)
+__data=$(cd $(dirname "$(dirname ${BASH_SOURCE[0]})") && pwd)
 cd $ORIG_DIR
-rm -r ${PROJ_DIR}/data
+rm -r $__data
 
-mkdir -p ${PROJ_DIR}/data ${PROJ_DIR}/data/.mirror
-mkdir -p ${PROJ_DIR}/data/new ${PROJ_DIR}/data/upload
-mkdir -p ${PROJ_DIR}/data/.backup ${PROJ_DIR}/data/backup/modified ${PROJ_DIR}/data/backup/original
+mkdir -p $__data $__data/.mirror
+mkdir -p $__data/new $__data/upload
+mkdir -p $__data/backup $__data/backup/modified $__data/backup/original

@@ -4,11 +4,11 @@ source "${script_dir}/.config"
 ##########################################
 
 function dest_path() {
-    echo "${proj_dir}/data/.bak_$(echo $1|sed s:/:_:g).tar.gz"
+    echo "$__data/.bak_$(echo $1|sed s:/:_:g).tar.gz"
 }
 
 function src_path() {
-    echo "${proj_dir}/data/backup/"
+    echo "$__data/backup/"
 }
 
 function print_usage() {
