@@ -1,0 +1,72 @@
+#!/bin/bash
+script_dir="$(dirname "${BASH_SOURCE[0]}")"
+source "${script_dir}/.config"
+##########################################
+
+function dest_path() {
+    echo "${proj_dir}/data/.bak_$(echo $1|sed s:/:_:g).tar.gz"
+}
+
+function src_path() {
+    echo "${proj_dir}/data/backup/"
+}
+
+function print_usage() {
+    printf "archives are compressed tarballs containing the contents of data/backup\n"
+    printf "ex usages: \n\tbin/archive new\n\tbin/archive restore mm/dd/yyyy\n\tbin/archive delete mm/dd/yyyy\n"
+}
+
+op=""
+while [[ $# > 0 ]]; do
+    key="$1"
+    case $key in
+        new)
+            op="${op}new"
+            shift
+            ;;
+        delete)
+            op="${op}restore"
+            shift
+            ;;
+        restore)
+            op="${op}delete"
+            shift
+            ;;
+        list)
+            op="${op}list"
+            shift
+            ;;
+        *)
+            print_usage
+            exit 1
+            ;;
+    esac
+done
+
+if [[ "$op" == "new" ]]; then
+    fpath=$(dest_path `date +'%m/%d/%Y'`)
+    if [[ -e "$fpath" ]]; then
+        echo "archive already exists"
+    else
+        tar cvzf "$fpath" "$(src_path)" --remove-files
+    fi
+elif [[ "$op" == "restore" ]]; then
+    fpath=$(dest_path "$1")
+    if [[ -e "$fpath" ]]; then
+        tar xvzf "$fpath" -C "$(src_path)"
+    else
+        echo "archive does not exist"
+    fi
+elif [[ "$op" == "delete" ]]; then
+    fname=$(dest_path "$1")
+    if [[ -e "$fname" ]]; then
+        rm "$fname"
+        echo "done!"
+    else
+        echo "archive does not exist"
+    fi
+elif [[ "$op" == "list" ]]; then
+    ls $proj_dir/data/.bak* | egrep -o "([0-9]{2})_([0-9]{2})_([0-9]{4})" | sed "s:_:/:g"
+else
+    print_usage
+fi

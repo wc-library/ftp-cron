@@ -5,7 +5,7 @@ source "${script_dir}/.config"
 
 function proc_ln() {
     cp --parents ${1} ${proj_dir}/data/new/
-    cp --parents ${1} ${proj_dir}/data/.backup/original
+    cp --parents ${1} ${proj_dir}/data/backup/original
 }
 
 function process_new() {

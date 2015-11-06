@@ -7,7 +7,7 @@ cd $ORIG_DIR
 
 mkdir -p ${PROJ_DIR}/data ${PROJ_DIR}/data/.mirror
 mkdir -p ${PROJ_DIR}/data/new ${PROJ_DIR}/data/upload
-mkdir -p ${PROJ_DIR}/data/.backup ${PROJ_DIR}/data/.backup/modified ${PROJ_DIR}/data/.backup/original
+mkdir -p ${PROJ_DIR}/data/backup ${PROJ_DIR}/data/backup/modified ${PROJ_DIR}/data/backup/original
 
 sync_args=" -c --verbose"
 lftp_script=""
