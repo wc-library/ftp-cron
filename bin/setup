@@ -14,15 +14,11 @@ lftp_script=""
 
 prm_ldir=" ${PROJ_DIR}/data/.mirror"
 prm_rdir=" ${remote_dir}"
-prm_del=""
+prm_del=" -e" #only on mirror
 prm_empty_dirs=""
 prm_pdownloads=""
 prm_psearch=""
 prm_nomod=""
-
-if [[ "$allow_delete" == "true" ]]; then
-    prm_del=" -e"
-fi
 
 if [[ "$create_empty_dirs" == "false" ]]; then
     prm_empty_dirs=" --no-empty-dirs"

@@ -16,7 +16,7 @@ function process_new() {
         proc_ln "${f_ln}"
     done <${1}2
     ${proj_dir}/bin/notify "$(cat ${1}2)"
-    #rm $1 ${1}2
+    rm $1 ${1}2
     cd $orig_dir
 }
 
