@@ -38,16 +38,21 @@ if [[ "$only_missing" == "true" ]]; then
     prm_nomod=" --only-missing"
 fi
 
+function wconfig() {
+    echo "$1" >> $__bin/.config
+}
+
+
 rm -f $__bin/.config
 echo "sync_args=\"${sync_args} ${prm_del}${prm_empty_dirs}${prm_pdownloads}${prm_nomod}${prm_rdir}${prm_ldir}\"" > $__bin/.config
-echo "remote_auth=\""${remote_user}","${remote_pass}" ${remote_host}\"" >> $__bin/.config
-echo "lftp_script=\"${prm_psearch}\"" >> $__bin/.config
+wconfig "remote_auth=\""${remote_user}","${remote_pass}" ${remote_host}\""
+wconfig "lftp_script=\"${prm_psearch}\""
 
-echo "__proj=$__proj" >> $__bin/.config
-echo "__bin=$__bin" >> $__bin/.config
-echo "__data=$__data" >> $__bin/.config
-echo "email_notify=${email_notify}" >> $__bin/.config
-if [[ "{$email_notify}" == "true" ]]; then
-    echo "email_to=\"${email_to}\"" >> $__bin/.config
-    echo "email_from=\"${email_from}\"" >> $__bin/.config
+wconfig "__proj=$__proj"
+wconfig "__bin=$__bin"
+wconfig "__data=$__data"
+wconfig "email_notify=${email_notify}"
+if [[ "$email_notify" == "true" ]]; then
+    wconfig "email_to=\"$email_to\""
+    wconfig "email_from=\"$email_from\""
 fi
