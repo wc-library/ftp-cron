@@ -7,5 +7,13 @@ subject="$1"
 message="$2"
 files="${@:3}"
 
-echo "$message" | mail -s "$subject" -r "$email_from" "$email_to" -a $files
+#echo "$message" | mutt -s "$subject" -r "$email_from" -a "$file" "$email_to"
 
+touch /tmp/out.mail
+truncate /tmp/out.mail --size 0
+for f in $files; do
+    uuencode $f newfiles.txt >> /tmp/out.mail
+done
+echo "$message" >> /tmp/out.mail
+
+mail -s "$subject" -r "$email_from" "$email_to" < /tmp/out.mail

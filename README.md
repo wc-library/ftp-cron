@@ -11,8 +11,7 @@ project status
 - bin/exec      = working!
 - bin/shell     = working!
 - bin/setup     = working!
+- bin/notify    = working!
 
 - bin/upload    = incomplete!
 - bin/archive   = incomplete!
-
-- bin/notify    = needs testing!
