@@ -1,7 +1,8 @@
 #!/bin/bash
 
 ORIG_DIR="$(pwd)"
-__data=$(cd $(dirname "$(dirname ${BASH_SOURCE[0]})") && pwd)
+__proj=$(cd $(dirname "$(dirname ${BASH_SOURCE[0]})") && pwd)
+__data=$__proj/data
 cd $ORIG_DIR
 rm -r $__data
 
