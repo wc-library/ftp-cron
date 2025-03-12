@@ -11,9 +11,26 @@ files="${@:3}"
 
 touch /tmp/out.mail
 truncate /tmp/out.mail --size 0
-for f in $files; do
-    uuencode $f newfiles.txt >> /tmp/out.mail
-done
-echo "$message" >> /tmp/out.mail
 
-mail -s "$subject" -r "$email_from" "$email_to" < /tmp/out.mail
+touch /tmp/newfiles.txt
+truncate /tmp/newfiles.txt --size 0
+
+#cat $files
+#cat /tmp/length | $length
+echo "$files"
+wc -l "$files"
+#(set -o posix ; set)
+if [ -s "$files" ]
+  then
+        for f in $files; do
+                cat "$f" >> /tmp/newfiles.txt
+                head -1 /tmp/newfiles.txt
+        done
+  echo "$message" >> /tmp/out.mail
+  cat /tmp/newfiles.txt >> /tmp/out.mail
+  echo "sending email now to: $email_to"
+  mail -s "$subject" -r "$email_from" "$email_to" < /tmp/out.mail
+  else
+  echo "no results, or we would be sending email now to: $email_to"
+
+fi
