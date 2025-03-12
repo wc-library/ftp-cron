@@ -53,6 +53,6 @@ wconfig "__bin=$__bin"
 wconfig "__data=$__data"
 wconfig "email_notify=${email_notify}"
 if [[ "$email_notify" == "true" ]]; then
-    wconfig "email_to=\"$email_to\""
+    wconfig "email_to='$email_to'"
     wconfig "email_from=\"$email_from\""
 fi
